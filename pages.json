@@ -1,17 +1,50 @@
 {
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "uni-app"
-		}
-	}],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"app-plus": {
-			"background": "#efeff4"
-		}
-	}
+  "pages": [{
+    "path": "pages/home/home",
+    "style": {}
+  }, {
+    "path": "pages/cate/cate",
+    "style": {}
+  }, {
+    "path": "pages/cart/cart",
+    "style": {}
+  }, {
+    "path": "pages/my/my",
+    "style": {}
+  }],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "银子の购",
+    "navigationBarBackgroundColor": "#30B1DE",
+    "backgroundColor": "#F8F8F8"
+
+  },
+  "tabBar": {
+    "selectedColor": "#30B1DE",
+    "list": [{
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "static/tab_icons/1tab.jpg",
+        "selectedIconPath": "static/tab_icons/1tab-active.jpg"
+      },
+      {
+        "pagePath": "pages/cate/cate",
+        "text": "分类",
+        "iconPath": "static/tab_icons/2tab.jpg",
+        "selectedIconPath": "static/tab_icons/2tab-active.jpg"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "static/tab_icons/2tab.jpg",
+        "selectedIconPath": "static/tab_icons/2tab-active.jpg"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tab_icons/1tab.jpg",
+        "selectedIconPath": "static/tab_icons/1tab-active.jpg"
+      }
+    ]
+  }
 }
