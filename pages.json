@@ -12,12 +12,27 @@
     "path": "pages/my/my",
     "style": {}
   }],
+  "subPackages": [{
+      "root":"subpkg",
+      "pages":[{
+        "path": "goods_detail/goods_detail",
+        "style":{}
+      }    ,{
+                    "path" : "goods_list/goods_list",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
+    }],
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "银子の购",
     "navigationBarBackgroundColor": "#30B1DE",
     "backgroundColor": "#F8F8F8"
-
   },
   "tabBar": {
     "selectedColor": "#30B1DE",
