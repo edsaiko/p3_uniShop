@@ -26,37 +26,58 @@
     <rich-text :nodes="goods_info.goods_introduce"></rich-text>
     <!-- 商品导航组件区域 -->
     <view class="goods_nav">
-      <uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" />
+      <uni-goods-nav :fill="true" :options="options" :buttonGroup="buttonGroup" @click="onClick"
+        @buttonClick="buttonClick" />
     </view>
   </view>
 </template>
 
 <script>
+  import {
+    mapState,
+    mapMutations,
+    mapGetters
+  } from 'vuex'
   export default {
+    computed: {
+      ...mapState('m_cart', []),
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      total: {
+        handler(newVal) {
+          const findResult = this.options.find(x => x.text === '购物车')
+          if (findResult) {
+            findResult.info = newVal
+          }
+        },
+        immediate: true
+      }
+    },
     data() {
       return {
         goods_info: {},
         options: [{
-        			icon: 'shop',
-        			text: '店铺',
-        			infoBackgroundColor:'#007aff',
-        			infoColor:"red"
-        		}, {
-        			icon: 'cart',
-        			text: '购物车',
-        			info: 2
-        		}],
-        	    buttonGroup: [{
-        	      text: '加入购物车',
-        	      backgroundColor: '#ff0000',
-        	      color: '#fff'
-        	    },
-        	    {
-        	      text: '立即购买',
-        	      backgroundColor: '#ffa200',
-        	      color: '#fff'
-        	    }
-        	    ]
+          icon: 'shop',
+          text: '店铺',
+          infoBackgroundColor: '#007aff',
+          infoColor: "red"
+        }, {
+          icon: 'cart',
+          text: '购物车',
+          info: 0
+        }],
+        buttonGroup: [{
+            text: '加入购物车',
+            backgroundColor: '#ff0000',
+            color: '#fff'
+          },
+          {
+            text: '立即购买',
+            backgroundColor: '#ffa200',
+            color: '#fff'
+          }
+        ]
       };
     },
     onLoad(options) {
@@ -64,6 +85,7 @@
       this.getGoodsDetail(goods_id)
     },
     methods: {
+      ...mapMutations('m_cart', ['addToCart']),
       async getGoodsDetail(goods_id) {
         const {
           data: res
@@ -71,13 +93,11 @@
           goods_id
         })
         if (res.meta.status !== 200) return uni.$showMsg()
-        
+
         //正则替换，用block去除图片间隙,/g全局替换
         res.message.goods_introduce =
-        res.message.goods_introduce.replace(/<img /g,'<img style="display:block;"').replace(/webp/g,'jpg')
-        
-        console.log(res.message.goods_introduce)
-        
+          res.message.goods_introduce.replace(/<img /g, '<img style="display:block;"').replace(/webp/g, 'jpg')
+
         this.goods_info = res.message
       },
       preview(i) {
@@ -86,14 +106,29 @@
           urls: this.goods_info.pics.map(x => x.pics_big)
         })
       },
-      onClick(e){
+      onClick(e) {
         console.log(e)
-        if(e.content.text==='购物车'){
+        if (e.content.text === '购物车') {
           uni.switchTab({
-            url:'/pages/cart/cart'
+            url: '/pages/cart/cart'
           })
         }
       },
+      buttonClick(e) {
+        if (e.content.text === '加入购物车') {
+          //组织商品的信息对象
+          //{goods_id,goods_name,goods_price,goods_count,goods_small_logo,goods_state}
+          const goods = {
+            goods_id: this.goods_info.goods_id,
+            goods_name: this.goods_info.goods_name,
+            goods_price: this.goods_info.goods_price,
+            goods_count: 1,
+            goods_small_logo: this.goods_info.goods_small_logo,
+            goods_state: this.goods_info.goods_state,
+          }
+          this.addToCart(goods)
+        }
+      }
     }
   }
 </script>
@@ -107,22 +142,27 @@
       height: 100%;
     }
   }
-  .goods-info-box{
+
+  .goods-info-box {
     padding: 10px;
     padding-right: 0;
-    .price{
+
+    .price {
       color: #C00000;
       font-size: 18px;
       margin: 10px 0;
     }
-    .goods-info-body{
+
+    .goods-info-body {
       display: flex;
       justify-content: space-between;
-      .goods-name{
+
+      .goods-name {
         font-size: 13px;
         margin-right: 10px;
       }
-      .favi{
+
+      .favi {
         width: 120px;
         font-size: 12px;
         display: flex;
@@ -133,19 +173,22 @@
         color: gray;
       }
     }
-    .yf{
+
+    .yf {
       font-size: 12px;
       color: gray;
       margin: 10px 0;
     }
   }
-  .goods_nav{
+
+  .goods_nav {
     position: fixed;
     bottom: 0;
-    left:0;
+    left: 0;
     width: 100%;
   }
-  .goods-detail-container{
+
+  .goods-detail-container {
     padding-bottom: 50px;
   }
 </style>
