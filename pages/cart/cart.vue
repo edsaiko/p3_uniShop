@@ -9,7 +9,7 @@
     </view>
 
     <!-- 商品列表区域 -->
-    <uni-swipe-action>
+   <uni-swipe-action>
       <uni-swipe-action-item :right-options="options" @click="swipeItemClickHandler(goods)">
         <my-goods :goods='goodsTest' :showRadio="true" :showNum="true" @radio-change="radioChangeHandler"
           @num_change="numberChangeHandler">

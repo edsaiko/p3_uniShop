@@ -58,9 +58,11 @@
         /*使用uni.chooseAddress*/
         "usingComponents" : true,
         "requiredPrivateInfos":[
-          "getFuzzyLocation",
           "choosePoi",
-          "chooseAddress"
+          "chooseAddress",
+          "getLocation",
+          "onLocationChange",
+          "startLocationUpdateBackground"
         ],
         "permission":{
           "scope.userLocation":{
